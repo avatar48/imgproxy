@@ -1,0 +1,22 @@
+version: '3.5'
+services:
+  imgproxy:
+    image: darthsim/imgproxy:latest
+    ports:
+      - "127.0.0.1:8082:8080"
+      - "9200:9200"
+    restart: "always"
+    volumes:
+      - /usr/share/nginx/img:/app/shared
+    environment: 
+      IMGPROXY_LOCAL_FILESYSTEM_ROOT: /app/shared/
+      IMGPROXY_BASE_URL: local:/// # only look at local files, therefore no URL signatures are needed
+      IMGPROXY_JPEG_PROGRESSIVE: 'true'
+      IMGPROXY_PNG_INTERLACED: 'true'
+      IMGPROXY_ENABLE_WEBP_DETECTION: 'false'
+      IMGPROXY_ENFORCE_WEBP: 'false'
+      IMGPROXY_GZIP_COMPRESSION: 0
+      IMGPROXY_LOG_FORMAT: 'structured'
+      IMGPROXY_MAX_SRC_RESOLUTION: 65
+      IMGPROXY_QUALITY: 97
+      IMGPROXY_PROMETHEUS_BIND: ':9200'
